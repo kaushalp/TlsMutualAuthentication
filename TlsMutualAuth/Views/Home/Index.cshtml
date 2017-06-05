@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<style>
+
+    .kaushal {
+        padding: 10px;
+        margin-bottom: 30px;
+        font-size: 12px;
+        font-weight: 200;
+        line-height: 2.1428571435;
+        color: inherit;
+        background-color: #e8e8e8;
+    }
+    table {
+        table-layout: auto;
+        width: auto;
+        border-collapse: inherit;
+        border: 0px;
+        border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-spacing: 1px;
+        border-color: #a8a5a5;
+        font-size: 16px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    thead {
+        color:white;
+        background: rgb(41,154,11);
+        background: -moz-radial-gradient(center, ellipse cover, rgba(41,154,11,1) 0%, rgba(41,154,11,1) 100%);
+        background: -webkit-radial-gradient(center, ellipse cover, rgba(41,154,11,1) 0%,rgba(41,154,11,1) 100%);
+        background: radial-gradient(ellipse at center, rgba(41,154,11,1) 0%,rgba(41,154,11,1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#299a0b', endColorstr='#299a0b',GradientType=1 );
+    }
+
+    thead:first-child tr:first-child th:first-child, tbody:first-child tr:first-child td:first-child {
+        border-radius: 4px 0 0 0;
+    }
+    thead:last-child tr:last-child th:first-child, tbody:last-child tr:last-child td:first-child {
+        border-radius: 0 0 0 4px;
+    }
+    
+
+    thead th:nth-child(1) {
+        width: 5%;
+    }
+
+    thead th:nth-child(2) {
+        width: 20%;
+    }
+
+    thead th:nth-child(3) {
+        width: 15%;
+    }
+
+    thead th:nth-child(4) {
+        width: 35%;
+    }
+
+    td {
+        padding: 1px;
+        border: 0px solid #a8a5a5;
+        /*border-radius: 6px;*/
+        color: black;
+        background: rgb(249,252,247);
+        background: -moz-radial-gradient(center, ellipse cover, rgba(249,252,247,1) 0%, rgba(245,249,240,1) 100%);
+        background: -webkit-radial-gradient(center, ellipse cover, rgba(249,252,247,1) 0%,rgba(245,249,240,1) 100%);
+        background: radial-gradient(ellipse at center, rgba(249,252,247,1) 0%,rgba(245,249,240,1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9fcf7', endColorstr='#f5f9f0',GradientType=1 );
+    }
+
+    th {
+        padding: 1px;
+        border: 0px solid #a8a5a5;
+        border-radius: 6px;
+        color: black;
+    }
+</style>
+
+<div class="kaushal">
+        <table border="1" cellspacing="2" style="text-indent:10px" >
+            <thead>
+                <tr><th colspan="2" style="font-size:24px"><b>Client Certificate Details</b></th></tr>
+            </thead>
+            <tbody>
+                <tr><td><b>Version</b></td><td>@ViewBag.ClientCertVersion</td></tr>
+                <tr><td><b>Subject</b></td><td>@ViewBag.ClientCertSubject</td></tr>
+                <tr><td><b>Issuer</b></td><td>@ViewBag.ClientCertIssuer</td></tr>
+                <tr>
+                    <td rowspan="2"><b>Validity</b></td>
+                    <td style="text-indent: 30px">
+                        <b>FROM:</b>@ViewBag.ClientCertIssueDate
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-indent: 55px">
+                        <b>  TO:</b>@ViewBag.ClientCertExpiryDate
+                    </td>
+                </tr>
+                <tr><td><b>Thumbprint</b></td><td>@ViewBag.ClientCertThumbprint</td></tr>
+                <tr><td><b>Public Key</b></td><td>@ViewBag.PublicKeyAlgorithm (@ViewBag.KeySize)</td></tr>
+                <tr><td><b>SignatureAlgorithm</b></td><td>@ViewBag.SignatureAlgorithm</td></tr>
+                <tr><td><b>KeyExchangeAlgorithm</b></td><td>@ViewBag.KeyExchangeAlgorithm</td></tr>
+                <tr><td><b>Key Usage</b></td><td>@ViewBag.KuExtension</td></tr>
+                <tr>
+                    @{ int count = 0;
+                        if (ViewBag.EkuExtensionCount != null)
+                        {
+                            count = ViewBag.EkuExtensionCount;
+                        }
+                    }
+                    <td><b>Enhanced Key Usage (@count)</b></td>
+                    <td>
+                        @{var results = ViewBag.EkuExtension;}
+                        @foreach (var v in results)
+                        {
+                            string ekus = v.FriendlyName + " (" + v.Value + ")";
+                            <p>@ekus</p>
+                        }
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>  
+</div>
