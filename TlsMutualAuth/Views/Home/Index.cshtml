@@ -85,42 +85,46 @@
             </thead>
             <tbody>
                 <tr><td><b>Version</b></td><td>@ViewBag.ClientCertVersion</td></tr>
+                <tr><td><b>Signature Algorithm</b></td><td>@ViewBag.SignatureAlgorithm</td></tr>
                 <tr><td><b>Subject</b></td><td>@ViewBag.ClientCertSubject</td></tr>
                 <tr><td><b>Issuer</b></td><td>@ViewBag.ClientCertIssuer</td></tr>
                 <tr>
                     <td rowspan="2"><b>Validity</b></td>
                     <td style="text-indent: 30px">
-                        <b>FROM:</b>@ViewBag.ClientCertIssueDate
+                        @ViewBag.ClientCertIssueDate
                     </td>
                 </tr>
                 <tr>
-                    <td style="text-indent: 55px">
-                        <b>  TO:</b>@ViewBag.ClientCertExpiryDate
+                    @*<td style="text-indent: 55px">*@
+                    <td style="text-indent: 30px">
+                        @ViewBag.ClientCertExpiryDate
                     </td>
                 </tr>
                 <tr><td><b>Thumbprint</b></td><td>@ViewBag.ClientCertThumbprint</td></tr>
                 <tr><td><b>Public Key</b></td><td>@ViewBag.PublicKeyAlgorithm (@ViewBag.KeySize)</td></tr>
-                <tr><td><b>SignatureAlgorithm</b></td><td>@ViewBag.SignatureAlgorithm</td></tr>
-                <tr><td><b>KeyExchangeAlgorithm</b></td><td>@ViewBag.KeyExchangeAlgorithm</td></tr>
                 <tr><td><b>Key Usage</b></td><td>@ViewBag.KuExtension</td></tr>
-                <tr>
-                    @{ int count = 0;
-                        if (ViewBag.EkuExtensionCount != null)
-                        {
-                            count = ViewBag.EkuExtensionCount;
+                @{ if(ViewBag.EkuExtension!=null)
+                    { 
+                        <tr>
+                            <td><b>Enhanced Key Usage (@ViewBag.EkuExtensionCount)</b></td>
+                        <td>
+                            @{var results = ViewBag.EkuExtension;}
+                            @{
+                                int i = 0;
+                                foreach (var v in results)
+                                {
+                                    string ekus = v.FriendlyName + " (" + v.Value + ")";
+                                    <p>@ekus</p>
+                                    i++;
+                                }
+                            }
+                        </td>
+                        </tr>
                         }
-                    }
-                    <td><b>Enhanced Key Usage (@count)</b></td>
-                    <td>
-                        @{var results = ViewBag.EkuExtension;}
-                        @foreach (var v in results)
-                        {
-                            string ekus = v.FriendlyName + " (" + v.Value + ")";
-                            <p>@ekus</p>
-                        }
-                    </td>
-                </tr>
-
+                }
+                <tr><td><b>Key Exchange Algorithm</b></td><td>@ViewBag.KeyExchangeAlgorithm</td></tr>
+                <tr><td><b>Crypto Provider</b></td><td>@ViewBag.ProviderName</td></tr>
             </tbody>
+
         </table>  
 </div>
